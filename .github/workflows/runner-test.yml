@@ -1,0 +1,32 @@
+# Copyright cocotb contributors
+# Licensed under the Revised BSD License, see LICENSE for details.
+# SPDX-License-Identifier: BSD-3-Clause
+
+name: Test Self-hosted runners
+
+on:
+  pull_request:
+    branches:
+      - master
+      - 'stable/**'
+
+  push:
+    branches:
+      - "**"
+
+jobs:
+
+  show-env:
+    runs-on: [self-hosted, Linux, X64]
+    name: test
+    steps:
+    - uses: actions/checkout@v3
+    - name: show env
+      run: |
+        . /etc/profile
+        module avail
+        module load mentor/questa/2021.3
+        pip3 install --upgrade nox virtualenv codecov
+        export SIM=questa
+        export TOPLEVEL_LANG=verilog
+        python3 -m nox
