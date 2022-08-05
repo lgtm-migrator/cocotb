@@ -114,7 +114,7 @@ class Clock(BaseClock):
         Using ``None`` as the *units* argument is deprecated, use ``'step'`` instead.
     """
 
-    def __init__(self, signal, period, units="step"):
+    def __init__(self, signal, period: Union[Real, Decimal], units: str = "step"):
         BaseClock.__init__(self, signal)
         if units is None:
             warnings.warn(
@@ -124,8 +124,8 @@ class Clock(BaseClock):
             )
             units = "step"  # don't propagate deprecated value
         self.period = get_sim_steps(period, units)
-        self.half_period = get_sim_steps(period / 2.0, units)
-        self.frequency = 1.0 / get_time_from_sim_steps(self.period, units="us")
+        self.half_period = get_sim_steps(period / 2, units)
+        self.frequency = 1 / get_time_from_sim_steps(self.period, units="us")
         self.hdl = None
         self.signal = signal
         self.coro = None
