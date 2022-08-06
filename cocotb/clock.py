@@ -30,6 +30,7 @@
 from decimal import Decimal
 import itertools
 from numbers import Real
+from typing import Union
 import warnings
 
 from cocotb.log import SimLog
