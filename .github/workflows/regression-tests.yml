@@ -41,7 +41,7 @@ jobs:
     needs: generate_envs
 
     name: ${{matrix.extra_name}}${{matrix.sim}} (${{matrix.sim-version}}) | ${{matrix.os}} | Python ${{matrix.python-version}} ${{matrix.may_fail && '| May Fail' || ''}}
-    runs-on: ${{matrix.os}}
+    runs-on: ${{matrix.runs-on}}
     env:
       SIM: ${{matrix.sim}}
       TOPLEVEL_LANG: ${{matrix.lang}}

@@ -118,6 +118,44 @@ ENVS = [
         # See also https://github.com/cocotb/cocotb/issues/2300
         "group": "experimental",
     },
+    # Test Siemens Questa on Ubuntu
+    {
+        "lang": "verilog",
+        "sim": "questa",
+        "sim-version": "mentor/questa/2021.3",
+        "os": "ubuntu-20.04",
+        "self-hosted": True,
+        "python-version": "3.8",
+        "group": "ci",
+    },
+    {
+        "lang": "vhdl",
+        "sim": "questa",
+        "sim-version": "mentor/questa/2021.3",
+        "os": "ubuntu-20.04",
+        "self-hosted": True,
+        "python-version": "3.8",
+        "group": "ci",
+    },
+    # Test Aldec Riviera-PRO on Ubuntu
+    {
+        "lang": "vhdl",
+        "sim": "riviera",
+        "sim-version": "aldec/rivierapro/2021.10",
+        "os": "ubuntu-20.04",
+        "self-hosted": True,
+        "python-version": "3.8",
+        "group": "ci",
+    },
+    {
+        "lang": "vhdl",
+        "sim": "riviera",
+        "sim-version": "aldec/rivierapro/2021.10",
+        "os": "ubuntu-20.04",
+        "self-hosted": True,
+        "python-version": "3.8",
+        "group": "ci",
+    },
     # Test other OSes
     # Icarus homebrew
     {
@@ -188,6 +226,15 @@ def main() -> int:
     else:
         # Return all tasks if no group is selected.
         selected_envs = ENVS
+
+    # The "runs-on" job attribute is a string if we're using the GitHub-provided
+    # hosted runners, or an array with special keys if we're using self-hosted
+    # runners.
+    for env in selected_envs:
+        if "self-hosted" in env and env["self-hosted"] and "runs-on" not in env:
+            env["runs-on"] = ["self-hosted", "cocotb-private", env["os"]]
+        else:
+            env["runs-on"] = env["os"]
 
     if args.output_format == "gha":
         # Output for GitHub Actions (GHA). Sets the variable 'envs'.
