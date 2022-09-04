@@ -27,11 +27,11 @@
 
 """A clock class."""
 
-from decimal import Decimal
 import itertools
+import warnings
+from decimal import Decimal
 from numbers import Real
 from typing import Union
-import warnings
 
 from cocotb.log import SimLog
 from cocotb.triggers import Timer
